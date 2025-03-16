@@ -1,0 +1,44 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'grid' as *;
+
+button {
+    padding: 0.5rem 1rem;
+    color: hsl(var(--clr-white));
+    background-color: hsl(var(--clr-med-gray));
+    border: none;
+    border-radius: 0.3rem;
+    font-size: $fs-400;
+    width: 8rem;
+    cursor: pointer;
+
+    @include media(xl) {
+        width: 10rem;
+        padding: 0.8rem 1.2rem;
+    }
+
+}
+
+@include media(sm) {
+    .buttons {
+        grid-column: span 2;
+
+        @include media(xl) {
+            display: contents;
+
+            & .hit-btn {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            & .stand-btn {
+                grid-column: 4;
+                grid-row: 1;
+            }
+        }
+    }
+}
+
+
+
+

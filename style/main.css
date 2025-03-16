@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100..900&display=swap");
+:root {
+  /* hsl(255, 0%, 100%) */
+  --clr-white: 255 0 100;
+  /* hsl(30, 10%, 9%) */
+  --clr-dark-gray: 30 10 9;
+  /* hsl(221, 87%, 60%) */
+  --clr-blue: 221 87% 60%;
+  /* hsl(158, 64%, 45%) */
+  --clr-green: 158, 64, 60;
+  --fs-base: 1rem;
+}
+
+/* ================= */
+/*   FONT FAMILIES  */
+/* ================= */
+/* ============== */
+/*   FONT SIZES   */
+/* ============== */
+/* ================= */
+/*      SPACING      */
+/* ================= */
+/* =============== */
+/*   BREAKPOINTS   */
+/* =============== */
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+h1, h2, h3 {
+  font-family: "outfit", sans-serif;
+}
+
+h1 {
+  font-size: 18rem;
+}
+
+body {
+  background-color: hsl(var(--clr-blue));
+  font-family: "manrope", sans-serif;
+  font-size: var(--fs-base);
+  color: hsl(var(--clr-white));
+}
+
+/*# sourceMappingURL=main.css.map */

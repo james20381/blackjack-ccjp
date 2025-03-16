@@ -1,0 +1,30 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100..900&display=swap');
+
+
+h1, h2, h3 {
+    font-family: $ff-heading;
+}
+
+h1 {
+    font-size: $fs-700;
+    
+    @include media(sm) {
+        font-size: $fs-800;
+    }
+
+    @include media(xl) {
+        font-size: $fs-900;
+    }
+}
+
+p, output {
+    font-size: $fs-400;
+
+    @include media(sm) {
+        font-size: $fs-500;
+    }
+}
+

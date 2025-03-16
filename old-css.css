@@ -1,0 +1,427 @@
+
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100..900&display=swap');
+
+        :root {
+            /* Colors */
+            /* #a3b2c6 */
+            /* hsl(220, 25%, 70%) */
+            --clr-bg: 220 25% 70%;
+
+            /* #162235 */
+            /* hsl(222, 47%, 11%) */
+            --clr-text: 222 47% 11%;
+
+            /* #1e4fd9 */
+            /* hsl(221, 87%, 60%) */
+            --clr-primary: 221 87% 60%;
+
+            /* #2e995d */
+            /* hsl(158, 64%, 45%) */
+            --clr-secondary: 158 64% 45%;
+
+            /* #6933aa */
+            /* hsl(265, 70%, 45%) */
+            --clr-secondary-2: 265 70% 45%;
+
+            /* #ffa733 */
+            /* hsl(34, 95%, 55%) */
+            --clr-accent: 34 95% 55%;
+
+            /* #a2a9b8 */
+            /* hsl(220, 14%, 70%) */
+            --clr-muted: 220 14% 70%;
+
+            /* #2a2e36 */
+            /* hsl(222, 15%, 25%) */
+            --clr-gray-dark: 222 15% 25%;
+
+            /* #000000 */
+            /* hsl(0, 0%, 0%) */
+            --clr-black: 0 0% 0%;
+
+            /* #1a1715 */
+            /* hsl(30, 10%, 9%) */
+            --dark-neutral: 30 10% 9%;
+
+            /* #e3e8f2 */
+            /* hsl(220, 25%, 95%) */
+            --clr-soft-white: 220 25% 95%;
+
+            /* #d02a2a */
+            /* hsl(2, 75%, 50%) */
+            --clr-red: 2 75% 50%;
+
+            --fs-900: 6rem;
+            --fs-800: 3.5rem;
+            --fs-700: 3rem;
+            --fs-600: 2.5rem;
+            --fs-500: 2rem;
+            --fs-400: 1.5rem;
+            --fs-300: 1.25rem;
+            --fs-200: 1rem;
+
+            /* font-families */
+            --ff-heading: "outfit", sans-serif;
+            --ff-body: "manrope", sans-serif;
+
+            /* Extra Small (Mobile Portrait) */
+            --breakpoint-xs: 23.4375em;
+            /* 375px */
+
+            /* Small (Mobile Landscape) */
+            /* --breakpoint-sm: 30em; */
+            --breakpoint-sm: 800px;
+            /* 480px */
+
+            /* Medium (Tablets) */
+            --breakpoint-md: 48em;
+            /* 768px */
+
+            /* Large (Laptops & Small Desktops) */
+            --breakpoint-lg: 64em;
+            /* 1024px */
+
+            /* Extra Large (Desktops & High-Res Screens) */
+            --breakpoint-xl: 80em;
+            /* 1280px */
+
+            /* 2XL (Very Large Screens) */
+            --breakpoint-2xl: 90em;
+            /* 1440px */
+
+            /* 3XL (Ultra-Wide & 4K Displays) */
+            --breakpoint-3xl: 120em;
+            /* 1920px */
+
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            margin: 0;
+            font-family: var(--ff-heading);
+            font-weight: 300;
+            /* height: 100vh; */
+            background-color: hsl(var(--clr-bg));
+            color: hsl(var(--clr-soft-white));
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-size: var(--fs-700);
+            font-family: var(--ff-heading);
+        }
+
+        h2 {
+            font-size: var(--fs-800);
+        }
+
+        p {
+            font-size: var(--fs-500);
+        }
+
+        @media (min-width: 800px) {
+            h1 {
+                font-size: var(--fs-900);
+            }
+        }
+
+        /* ============= */
+        /*   UTILITIES   */
+        /* ============= */
+
+        /* == Flexbox == */
+
+        .flex {
+            display: flex;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .flex-column {
+            flex-direction: column;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            height: 100svh;
+            background-color: hsl(var(--clr-primary));
+            /* padding-block: 1rem; */
+
+            & .bj-container {
+                width: 40rem;
+                max-width: 100%;
+                display: grid;
+                gap: 1rem;
+                /* border: 3px solid red; */
+
+                @media (min-width: 800px) {
+                    gap: 5rem;
+                }
+
+                @media (min-width: 1200px) {
+                    width: 100rem;
+                    gap: 10rem;
+                }
+
+                & h1 {
+                    text-align: center;
+                }
+
+                & input {
+                    max-width: 100%;
+                    width: 25rem;
+                    font-size: var(--fs-500);
+                    border-radius: 0.5rem;
+                    border: none;
+                    text-align: center;
+                    padding: 0.5rem;
+                    margin: 0;
+                    line-height: 0;
+
+                    &::placeholder {
+                        color: hsl(var(--clr-muted));
+                    }
+                }
+
+                & section {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                    width: 100%;
+                    /* border: 3px solid orange; */
+
+                    @media (min-width: 800px) {
+                        grid-template-columns: repeat(2, 1fr);
+
+                        /* grid-template-rows: auto auto; */
+                    }
+
+                    @media (min-width: 1200px) {
+                        grid-template-columns: repeat(4, 1fr);
+                        align-items: center;
+
+                    }
+
+                    & .user-stats,
+                    & .dealer-stats {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        position: relative;
+                        /* border: 13px solid green; */
+
+                        & .hand {
+                            position: relative;
+                            height: 10rem;
+                            display: flex;
+                            justify-content: center;
+                            align-self: center;
+                            width: 100%;
+                            /* border: 3px solid yellow; */
+
+                            @media (min-width: 1200px) {
+                                height: 15rem;
+                            }
+                        }
+
+                        & .sum {
+                            margin-top: -2rem;
+                            font-size: var(--fs-400);
+                            font-weight: 300;
+                            color: white;
+                            background-color: hsl(var(--clr-secondary));
+                            border-radius: 0.5rem;
+                            padding: 0.5rem 1rem;
+                            z-index: 5;
+                        }
+                    }
+
+                    & .user-stats {
+                        @media (min-width: 1200px) {
+                            grid-column: 2;
+
+                        }
+                    }
+
+                    & .dealer-stats {
+                        @media (min-width: 1200px) {
+                            grid-column: 3;
+                        }
+                    }
+
+
+                    
+
+
+
+
+                    & button {
+                        place-self: center;
+                        /* border: 3px solid red; */
+                        grid-column: span 1;
+
+                        @media (min-width: 800px) {
+                            grid-column: span 2;
+                        }
+
+                        font-size: var(--fs-500);
+                        background-color: hsl(var(--clr-bg));
+                        color: white;
+                        cursor: pointer;
+                        width: 100%;
+                        padding-block: 0.5rem;
+                        border-radius: 0.5rem;
+                        border: none;
+                        max-width: 15rem;
+
+                        &.hit-btn {
+                            margin-top: 1rem;
+
+                            @media (min-width: 800px) {
+                                margin-top: 5rem;
+                            }
+
+                            @media (min-width: 1200px) {
+                                margin-top: 0;
+                                grid-column: 1;
+                                grid-row: 1;
+                                /* grid-column: span 1; */
+
+
+                            }
+                        }
+
+                        &.stand-btn {
+                            @media (min-width: 1200px) {
+                                grid-column: 4;
+                                grid-row: 1;
+                            }
+                        }
+                    }
+
+
+
+                    & .busted-message {
+                        color: hsl(var(--clr-secondary));
+                        text-align: center;
+
+                        @media (min-width: 800px) {
+                            grid-column: span 2;
+                        }
+                        
+                        @media (min-width: 1200px) {
+                            grid-column: span 4;
+                        }
+                        /* grid-column: span 4; */
+
+                    }
+
+                    & .user-status-output {
+                        color: hsl(var(--clr-secondary));
+                        text-align: center;
+                        min-width: 100%;
+                        padding: 2rem;
+
+                        @media (min-width: 800px) {
+                            grid-column: span 2;
+                            padding: 3rem;
+                        }
+                        
+                        @media (min-width: 1200px) {
+                            grid-column: span 4;
+                            padding: 5rem;
+                        }
+                    }
+                }
+            }
+
+    
+        }
+
+        .set-rotate {
+            transform: rotate(0);
+            opacity: 0;
+            transition: transform 1s, opacity 1s;
+        }
+
+        .activate-rotate {
+            transform: rotate(360deg);
+            opacity: 1;
+        }
+
+
+        .svgees {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .card-svg {
+            width: 6rem;
+            height: auto;
+
+            @media (min-width: 800px) {
+                width: 9rem;
+            }
+            
+            @media (min-width: 1200px) {
+                width: 12rem;
+            }
+        }
+
+       
+        .flip-card {
+            background-color: transparent;
+            width: 10rem;
+            height: 10rem;
+            perspective: 1000px;
+            /* Gives the 3D effect */
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s ease;
+            /* Smooth transition */
+            transform-style: preserve-3d;
+            /* Makes the children of this element 3D */
+            transform: rotateY(0deg);
+            /* Starts with the back facing */
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            /* Hide the back of the element when flipped */
+        }
+
+        .flip-card-back {
+            transform: rotateY(0deg);
+            /* Starts facing the user */
+        }
+
+        .flip-card-front {
+            transform: rotateY(180deg);
+            /* Initially hidden, will show after rotation */
+        }

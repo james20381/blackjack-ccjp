@@ -1,0 +1,22 @@
+@use 'sass:map';
+@use 'variables' as *;
+@use 'mixins' as *;
+
+body {
+    background-color: hsl(var(--clr-blue));
+    font-family: $ff-body;
+    font-size: var(--fs-base);
+    color: hsl(var(--clr-white));
+
+    
+}
+
+// @include media(sm) {
+//     body {
+//         background-color: pink;
+
+//         h1 {
+//             margin-bottom: map.get($spacing, xl);
+//         }
+//     }
+// }

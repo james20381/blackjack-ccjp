@@ -1,0 +1,99 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+// Generate Spacing Utilities
+@include utilities(margin, m, $spacing);
+@include utilities(padding, p, $spacing);
+
+// Generate default utility classes (non-responsive)
+@include utilities(font-size, fs, $font-sizes);
+
+// Generate Width & Height Utilities
+@include utilities(width, w, $sizes);
+@include utilities(height, h, $sizes);
+@include utilities(max-width, mw, $sizes);
+
+// Generate Flex/Grid Gap Utility
+@include utilities(gap, gap, $spacing);
+
+@each $bp, $size in $breakpoints {
+    @include media($bp) {
+      @include utilities(margin, m, $spacing, "#{$bp}\\:");
+      @include utilities(padding, p, $spacing, "#{$bp}\\:");
+      @include utilities(width, w, $sizes, "#{$bp}\\:");
+      @include utilities(max-width, mw, $sizes, "#{$bp}\\:");
+      @include utilities(height, h, $sizes, "#{$bp}\\:");
+      @include utilities(gap, gap, $spacing, "#{$bp}\\:");
+      @include utilities(font-size, fs, $font-sizes, "#{$bp}\\:");
+    }
+  }
+  
+
+
+
+.border-red {
+    border: 10px solid red;
+}
+
+.border-green {
+    border: 10px solid green;
+}
+
+.border-yellow {
+    border: 10px solid yellow;
+}
+
+.border-orange {
+    border: 10px solid orange;
+}
+
+.vh-100 {
+    height: 100vh;
+}
+
+.h-10r {
+    height: 10rem;
+}
+
+.h-50 {
+    height: 50%;
+}
+
+.w-30-100 {
+    width: 100%;
+    max-width: 30rem;
+}
+
+.w-80-100 {
+    width: 100%;
+    max-width: 80rem;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.gap-1 {
+    gap: 1rem;
+}
+
+.gap-2 {
+    gap: 2rem;
+}
+
+.gap-3 {
+    gap: 3rem;
+}
+
+.gap-4 {
+    gap: 4rem;
+}
+
+.gap-5 {
+    gap: 5rem;
+}
+

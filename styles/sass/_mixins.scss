@@ -1,0 +1,19 @@
+@use "sass:map"; // Import the Sass map module
+@use "variables" as *; // Import your variables
+
+@mixin media($size) {
+  @if map.has-key($breakpoints, $size) {
+    @media (min-width: #{map.get($breakpoints, $size)}) {
+      @content;
+    }
+  }
+}
+
+@mixin utilities($property, $class-prefix, $values, $bp-prefix: "") {
+    @each $key, $value in $values {
+      .#{$bp-prefix}#{$class-prefix}-#{$key} {
+        #{$property}: #{$value};
+      }
+    }
+  }
+  

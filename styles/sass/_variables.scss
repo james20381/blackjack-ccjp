@@ -1,0 +1,94 @@
+:root {
+
+    /* hsl(255, 0%, 100%) */
+    --clr-white: 255 0 100;
+   
+    /* hsl(30, 10%, 9%) */
+    --clr-dark-gray: 30 10% 9%;
+    
+    /* hsl(220, 25%, 70%) */
+    --clr-light-gray: 220 25% 70%;
+
+    /* hsl(220, 55%, 70%) */
+    --clr-med-gray: 220 55% 70%;
+
+    /* hsl(221, 87%, 60%) */
+    --clr-blue: 221 87% 60%;
+    
+    /* hsl(158, 64%, 45%) */
+    --clr-green: 158, 64%, 45%;
+    
+    /* hsl(98, 54%, 65%) */
+    --clr-green-sharper: 98, 54%, 65%;
+    
+    /* hsl(34, 95%, 55%) */
+    --clr-orange: 34, 95%, 55%;
+
+    --fs-base: 1rem;
+
+}
+
+$ff-heading: "outfit", sans-serif;
+$ff-body: "manrope", sans-serif;
+
+// Map font sizes for use as utility classes
+$font-sizes: (
+  900: 6rem,
+  800: 5rem,
+  700: 4rem,
+  600: 3rem,
+  500: 2.5rem,
+  400: 2rem,
+  300: 1.5rem
+);
+
+$fs-900: 6rem;
+$fs-800: 5rem;
+$fs-700: 4rem;
+$fs-600: 3rem;
+$fs-500: 2.5rem;
+$fs-400: 2rem;
+$fs-300: 1.5rem;
+
+$spacing: (
+    sm: 0.5rem,
+    md: 1rem,
+    lg: 1.5rem,
+    xl: 2rem,
+    2xl: 3rem,
+    3xl: 5rem,
+    4xl: 6rem,
+    5xl: 10rem
+
+);
+
+$sizes: (
+  1r: 1rem,
+  2r: 2rem,
+  3r: 3rem,
+  4r: 4rem,
+  5r: 5rem,
+  10r: 10rem,
+  20r: 20rem,
+  30r: 30rem,
+  40r: 40rem,
+  50r: 50rem,
+  60r: 60rem,
+  70r: 70rem,
+  80r: 80rem,
+  25: 25%,
+  40: 40%,
+  50: 50%,
+  75: 75%,
+  100: 100%
+);
+
+$breakpoints: (
+    sm: 576px,
+    md: 768px,
+    lg: 1024px,
+    xl: 1200px
+);
+
+$widths: (25 50 75 100);
+$heights: (25 50 75 100);

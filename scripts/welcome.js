@@ -1,0 +1,1 @@
+export const welcomeAlert = (str) => alert(str);

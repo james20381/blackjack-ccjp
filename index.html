@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/css/main.css">
+    <title>JS Play 3</title>
+</head>
+
+<body>
+
+    <main class="flex flex-center flex-col vh-100">
+        <article class="p-lg vh-100 flex flex-col flex-center gap-lg sm:gap-3xl xl:gap-5xl w-80-100">
+            <h1>Blackjack</h1>
+            <label for="player-name" class="sr-only">Enter your name:</label>
+            <input id="player-name" class="user-input" type="text" placeholder="Enter Name">
+            <section class="game-play grid gap-xl sm:gap-3xl xl:gap-5xl w-40r mw-100 xl:w-80r">
+                <div class="user-stats w-100">
+                    <figure class="hand w-100"></figure>
+                    <output class="sum" aria-live="polite">0</output>
+                </div>
+                <div class="dealer-stats w-100">
+                    <figure class="hand w-100"></figure>
+                    <output class="sum" aria-live="polite">0</output>
+                </div>
+                <fieldset class="buttons flex flex-wrap justify-center gap-1 w-100">
+                    <legend class="sr-only">Game Controls</legend>
+                    <button class="hit-btn">Hit</button>
+                    <button class="stand-btn">Stand</button>
+                </fieldset>
+                <output class="stats-modal" aria-live="polite"></output>
+            </section>
+        </article>
+    </main>
+
+    <script>
+
+        const gamePlaySecEl = document.querySelector('article .game-play');
+        const userHandEl = document.querySelector('.game-play .user-stats .hand');
+        const userSumEl = document.querySelector('.game-play .user-stats .sum');
+        const dealerHandEl = document.querySelector('.game-play .dealer-stats .hand');
+        const dealerSumEl = document.querySelector('.game-play .dealer-stats .sum');
+
+
+        const gameResultSecEl = document.querySelector('.bj-container .game-result');
+        const userNameTitle = document.querySelector('.game-result .player-titles .user-name')
+        const userSumResultEl = document.querySelector('.game-result .player-stats .user-sum');
+        const dealerTitleResultEl = document.querySelector('.game-result .player-titles .dealer-name')
+        const dealerSumResultEl = document.querySelector('.game-result .player-stats .dealer-sum');
+        const bustedMessage = document.querySelector('.game-result .busted-message');
+
+
+        const startBtn = document.querySelector('.start-btn');
+        const hitBtn = document.querySelector('.hit-btn');
+        const standBtn = document.querySelector('.stand-btn');
+        const userInput = document.querySelector('.user-input');
+        const statsModal = document.querySelector('.stats-modal');
+
+        gamePlaySecEl.style.display = 'none';
+        // gameResultSecEl.style.display = 'none';
+
+        let username;
+        let credit = 10;
+        let userHand = [];
+        let userSum = 0;
+        let dealerHand = [];
+        let dealerSum;
+        let card;
+        let img;
+        let cards = [];
+        let stand = false;
+        let cardElements = [];
+        let hasRevealed = false;
+
+        // userInput.addEventListener('keydown', (event) => {
+        //     username = userInput.value.trim();
+        //     if (event.key === 'Enter') {
+                userStatus(credit);
+
+                gamePlaySecEl.style.display = 'grid';
+                userInput.style.display = 'none';
+
+
+        //     };
+        // });
+
+        const suits = ["hearts-", "spades-"];
+        const ranks = [2, 3, 4, 5, 11];
+
+        const deck = [];
+
+        for (let suit of suits) {
+            for (let rank of ranks) {
+                deck.push({
+                    rank,
+                    suit,
+                    value: parseInt(rank),
+                    img: `/images/${suit}${rank}.svg`
+                });
+            }
+        }
+
+        function shuffleDeck(deck) {
+            if (!deck || deck.length === 0) {
+                return;
+            }
+            for (let i = deck.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+        shuffleDeck(deck);
+
+        function createCards() {
+            return deck.map(card => {
+                const cardEl = document.createElement('img');
+                cardEl.classList.add('card-svg');
+                cardEl.src = card.img;
+                cardEl.value = card.value;
+                cardEl.alt = `${card.rank} of ${card.suit}`;
+
+                return cardEl;
+            })
+
+        }
+
+        console.log(cardElements)
+
+        function drawCard(numCards = 1) {
+            if (deck.length === 0) return [];
+            cards = [];
+            for (let i = 0; i < numCards; i++) {
+                if (deck.length === 0) break;
+                let drawnCard = deck.pop();
+
+                cards.push(drawnCard);
+            }
+            return cards;
+        }
+
+        /*
+            - const cardEl = document.createElement('div');
+            - cardEl.appendChild()
+
+            You've just gotta run the deck thru as virtuals, then
+            dress them at after dealing
+
+            - createCards() calls drawCard(2) into a constant and
+            dresses them
+            - dealCards() calls createCards(userhand, userHandEl)
+            - later on when we learn more about returning, we should
+            be reminded of how we tried but failed
+
+            - Or:
+                - createCards() calls drawCard(2) and dresses them
+                - dealCards() just calls the 2 dressed cards then, 
+                without having to call the whole function each time
+        
+        */
+
+
+        function dealCards(numCards) {
+
+            const drawnCards = drawCard(2);
+
+            if (drawnCards.length === 0) return;
+
+            userHand = [];
+            userHandEl.innerHTML = "";
+
+            drawnCards.forEach(card => {
+                const img = document.createElement('img');
+                img.src = card.img;
+                img.alt = `${card.rank} of ${card.suit}`;
+                img.classList.add('card-svg');
+
+                userHandEl.appendChild(img);
+                userHand.push(card.value);
+                userSum += card.value;
+                userSumEl.textContent = userSum;
+
+                angleCards(userHand, userHandEl);
+            });
+
+            const dealerCards = drawCard(2);
+            if (dealerCards.length === 0) return;
+
+            dealerCards.forEach((card, index) => {
+                const img = document.createElement('img');
+
+                if (index === 1) {
+                    // Hide the second card
+                    img.src = "/images/card-back.svg";
+                    img.dataset.realSrc = card.img; // Store real image in a data attribute
+                } else {
+                    img.src = card.img;
+                }
+
+                img.alt = `${card.rank} of ${card.suit}`;
+                img.classList.add('card-svg');
+
+                dealerHandEl.appendChild(img);
+                dealerHand.push(card.value);
+            });
+
+            dealerSumEl.textContent = dealerCards[0].value;
+            angleCards(dealerHand, dealerHandEl);
+
+            hitBtn.style.display = 'block';
+
+        }
+        dealCards();
+
+        function angleCards(hand, handEl) {
+            const cardImgs = handEl.querySelectorAll('.card-svg');
+
+            handEl.style.position = 'relative';
+
+            cardImgs.forEach((imgEl, i) => {
+
+                const angle = (i - hand.length / 2) * 10;
+
+                imgEl.style.transform =
+                    `rotate(${angle}deg) 
+                    translateX(${i * 10}px) 
+                    translate(-50%, -50%)`;
+                imgEl.style.position = 'absolute';
+                imgEl.style.top = '50%';
+                imgEl.style.left = '50%';
+
+            });
+        }
+
+        /* 
+            - angleCards is calling all .card-svg's from the hand
+            - im tryin to call all .card-svg's from the shuffler
+            - cant call them from the shuffler, because they're not
+            elements, they're virtuals
+            - 
+        */
+
+        /* 
+            - 'card' is the actual figma svg stored in local folders
+            - 'deck()' is the constant built to access them
+            - 'deck()' also holds their values, by:
+                    - cycling thru with a for loop to get each one
+            - 'shuffleDeck()' cycles thru with a for loop and:
+                    - runs them thru Math.random(i + 1), which probably
+                    means; each cards index and rank. Doesnt put them back into the deck, just shuffles them.
+                    
+            - 'angleCards()' gets the virtual creation's of the card.svg's
+            from the 'deck()' array by using forEach(), then:
+                    - runs document.createElement('img') and appends
+                    ( - ? we've already made virtual <img>'s) in dealCards() but, so:
+                    - Instead of running another 'createElement('img')' in angleCards, create a function for 'createElement('img')'  
+
+                    */
+        /* 
+             - Get the deck array
+             - Create the cards
+             - Shuffle them
+             - dealCards() runs
+             - drawCard() runs
+             - cards are appended after they've been dealt
+             - and angleCards is called from dealCards()  
+        */
+
+
+        function checkScores() {
+            switch (true) {
+                case userSum === 21:
+            }
+        }
+
+        function newGame() {
+            gameResultSecEl.style.display = 'none';
+            gamePlaySecEl.style.display = 'flex';
+            // dealCards();
+        }
+
+        function userStatus(position) {
+            if (typeof position === 'string') {
+                statsModal.textContent = position;
+            } else {
+                statsModal.textContent = `${username}: ` + position + ` Credits`;
+            }
+        }
+
+        function creditCounter(points) {
+            credit -= points;
+        }
+
+
+        // Since sum hasn't been calculated before calling this function, players hand is the argument and is then returned to the caller. Sum has no value before this happens, and arguments must have a value.
+
+        /*
+            - let cards = []
+            - cards.push(fannedCard)
+            - return cards;
+        */
+
+
+
+        hitBtn.addEventListener("click", () => {
+
+            const drawnCards = drawCard(1);
+            if (drawnCards === 0) return;
+
+            drawnCards.forEach(card => {
+                const img = document.createElement('img');
+                img.src = card.img;
+                img.alt = `${card.rank} of ${card.suit}`;
+                img.classList.add('card-svg');
+
+                userHandEl.appendChild(img);
+                userHand.push(card.value);
+                userSum += card.value;
+
+                angleCards(userHand, userHandEl);
+                /*
+                    - userHand is still holding the cards in an array
+                    - userSum isn't an array
+                    - new card is pushed to userHand, not userSum
+                    - userSum's just 1 number
+                    - you have to iterate thru the userHand array
+                    so you can find the ace, you won't find it in userSum
+
+                    if (card.value === 11 && userSum > 21) {
+                        card.value = 1;
+                    } : wont work, because you not accessing the cards value, you have to iterate thru the hand using index to find its value.
+
+                    - you have to use a for loop so it can iterate again each time the ace is drawn. forEach wont do it properly.
+                */
+                if (userSum > 21) {
+                    for (let i = 0; i < userHand.length; i++) {
+                        if (userHand[i] === 11) {
+                            userHand[i] = 1;
+                            userSum -= 10;
+                            break;
+                        }
+                    }
+                    // userHand.forEach((card, i) => {
+                    //     if (userHand[i] === 11) {
+                    //         userHand[i] = 1;
+                    //         userSum -= 10;
+
+                    //     }
+                    // })
+                }
+
+
+            });
+
+            userSumEl.textContent = userSum;
+
+            /* 
+            
+                - Deck holds the card images:
+                    - It has the link to where they're stored
+                - drawCard() pops each card out as called upon
+                - dealCards() loops thru the cards array then:
+                    - Creates img elements and:
+                    - Appends them to each players html element space-holder
+            
+            
+            */
+
+        });
+
+        // Deal cards to the user
+
+
+        function userHit() {
+            if (stand) {
+                return;
+            }
+            creditCounter(1);
+            if (credit < 1) {
+                userStatus(`Not enough credit for a new card`);
+            } else {
+                userStatus(credit);
+            }
+            const newCard = Math.floor(Math.random() * 11) + 1;
+            userHand.push(newCard);
+            // userSum = sumCalculator(userHand);
+            // styleCards(userHand, userHandEl);
+            userSumEl.textContent = userSum;
+
+            // styledCard.classList.add('set-rotate');
+            userSumEl.classList.add('set-rotate');
+
+            setTimeout(() => {
+
+                // styledCard.classList.add('activate-rotate');
+                userSumEl.classList.add('activate-rotate');
+                // userSumEl.classList.add('set-rotate');
+
+            }, 1)
+
+            if (userSum > 21) {
+                setTimeout(() => {
+                    gameResult();
+                }, 2000)
+            };
+        }
+
+        function userStand() {
+            stand = true;
+
+            if (hasRevealed) {
+                return;
+            } else if (stand) {
+                revealDealerCard();
+            }
+
+        }
+
+        function revealDealerCard() {
+            const cardBackImg = dealerHandEl.querySelector('img[src*="card-back.svg"]');
+
+            if (!cardBackImg) return;
+
+            const cardFrontImg = document.createElement('img');
+            cardFrontImg.src = cardBackImg.dataset.realSrc;
+            cardFrontImg.classList.add('card-svg');
+
+
+            const flipContainer = document.createElement('div');
+            flipContainer.classList.add('flip-card');
+            dealerHandEl.appendChild(flipContainer);
+
+
+            const flipInner = document.createElement('div');
+            flipInner.classList.add('flip-card-inner');
+            flipContainer.appendChild(flipInner);
+
+            const flipCardFront = document.createElement('div');
+            flipCardFront.classList.add('flip-card-front');
+            flipInner.appendChild(flipCardFront);
+            flipCardFront.appendChild(cardFrontImg);
+
+            const flipCardBack = document.createElement('div');
+            flipCardBack.classList.add('flip-card-back');
+            flipInner.appendChild(flipCardBack);
+            flipCardBack.appendChild(cardBackImg);
+
+            setTimeout(() => {
+                flipInner.style.transform = 'rotateY(180deg)';
+                flipInner.style.transition = 'transform 1s';
+            }, 100);
+
+            hasRevealed = true;
+
+            dealerTurn();
+        }
+
+
+        function dealerTurn() {
+
+            function drawNextCard() {
+
+
+                while (dealerSum <= 16) {
+                    setTimeout(() => {
+                        const drawnCards = drawCard(1);
+                        if (drawnCards === 0) return;
+
+                        drawnCards.forEach(card => {
+                            const img = document.createElement('img');
+                            img.src = card.img;
+                            img.alt = `${card.rank} of ${card.suit}`;
+                            img.classList.add('card-svg');
+
+                            dealerHandEl.appendChild(img);
+                            dealerHand.push(card.value);
+                            console.log(drawnCards)
+
+                            // cardFrontImg.src = cardBackImg.dataset.realSrc;
+
+                            dealerSum = dealerHand[0].value + dealerHand[1].value;
+                        });
+                        // dealerSum = sumCalculator(dealerHand);
+                        dealerSumEl.textContent = dealerSum;
+
+                        // setTimeout(() => {
+                        //     dealerSumEl.classList.add('activate-rotate');
+                        // }, 100);
+
+                        // Call next card if dealer still needs more
+                        drawNextCard();
+                    }, 1000); // 1-second delay per card
+                }
+            }
+            drawNextCard();
+        }
+
+        function gameResult() {
+            gamePlaySecEl.style.display = 'none';
+            gameResultSecEl.style.display = 'flex';
+            userNameTitle.textContent = username;
+            userSumResultEl.textContent = userSum;
+            dealerTitleResultEl.textContent = 'Dealer';
+            dealerSumResultEl.textContent = dealerSum;
+            checkScores()
+
+            bustedMessage.style.transform = 'translateY(-300%)';
+            bustedMessage.style.opacity = 0;
+
+            bustedMessage.style.transition = 'transform 1s, opacity 2s';
+            setTimeout(() => {
+                bustedMessage.style.transform = 'translateY(0)';
+                bustedMessage.style.opacity = 1;
+            }, 20);
+
+        }
+
+        function startGame() {
+            dealCards();
+
+        }
+
+        standBtn.addEventListener('click', userStand);
+        // hitBtn.addEventListener('click', userHit);
+        // startBtn.addEventListener('click', newGame);
+
+        /*  - Get and store user sum total into a variable
+            - Compare it to dealers sum total
+            - Disable userHit()
+            - Message out the winner
+
+            - When user stands, dealer checks:
+                - If 16 or less:
+                    - He must hit
+                - If 17 or more:
+                    - He must stand
+            - If user busts, he:
+                - Loses immediately
+            - If dealer busts, he:
+                - Loses immediately
+            - If user gets 21 on first 2 cards he wins (unless dealer also gets 21 on first 2 cards)
+            - If user gets 21 after hitting, dealer still plays their turn
+        
+        */
+    </script>
+</body>
+
+</html>
