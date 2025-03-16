@@ -1487,6 +1487,10 @@ p, output {
   border: 10px solid orange;
 }
 
+.svh-100 {
+  height: 100svh;
+}
+
 .vh-100 {
   height: 100vh;
 }
